@@ -354,6 +354,7 @@
         <a href="#week1" class="nav-link">💂 Week 1: 倫敦與登船</a>
         <a href="#week2" class="nav-link">🌌 Week 2: 挪威追光</a>
         <a href="#week3" class="nav-link">🌊 Week 3: 返航歸途</a>
+        <a href="#emergency" class="nav-link" style="color: #ff6b6b; border: 1px solid rgba(255,107,107,0.4);">🚨 緊急求助資訊</a>
     </nav>
 
     <div class="container">
@@ -974,12 +975,66 @@
             </div>
 
         </div>
+<!-- ================= EMERGENCY SECTION (COLLAPSIBLE) ================= -->
+<div id="emergency" style="scroll-margin-top: 70px; margin-bottom: 24px;">
+    <details style="background: rgba(220, 38, 38, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 16px 20px; backdrop-filter: blur(16px); cursor: pointer;">
+        
+        <!-- 折疊標題列 -->
+        <summary style="font-size: 1.1rem; font-weight: 600; color: #fca5a5; display: flex; align-items: center; justify-content: space-between; user-select: none;">
+            <span style="display: flex; align-items: center; gap: 8px;">
+                🚨 旅途緊急求助與應變通訊錄
+           </span>
+            <span style="font-size: 0.85rem; color: #fca5a5; font-weight: normal;">🆘</span>
+        </summary>
 
-    </div>
+        <!-- 折疊展開後的詳細內容 -->
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(239, 68, 68, 0.2); cursor: default;">
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+                如遇護照遺失、身體極度不適、嚴重意外或船隻/行程突發狀況，請優先聯繫以下單位：
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px;">
+                
+                <!-- 駐英國代表處 -->
+                <div style="background: rgba(10, 20, 42, 0.7); padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h3 style="font-size: 1rem; color: #ffffff; margin-bottom: 6px;">🇬🇧 英國緊急聯絡</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-main);"><strong>駐英國台北代表處：</strong><br><a href="tel:+447768938765" style="color: var(--aurora-cyan);">+44 7768-938-765</a></p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">當地報案/救護車：<strong>999</strong></p>
+                </div>
+
+                <!-- 駐挪威代表處 -->
+                <div style="background: rgba(10, 20, 42, 0.7); padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h3 style="font-size: 1rem; color: #ffffff; margin-bottom: 6px;">🇳🇴 挪威緊急聯絡</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-main);"><strong>駐挪威台北代表處：</strong><br><a href="tel:+4790698853" style="color: var(--aurora-cyan);">+47 9069-8853</a></p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">當地報案：<strong>112</strong> / 救護車：<strong>113</strong></p>
+                </div>
+
+                <!-- 公主郵輪 -->
+                <div style="background: rgba(10, 20, 42, 0.7); padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h3 style="font-size: 1rem; color: #ffffff; margin-bottom: 6px;">🚢 公主郵輪緊急支援</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-main);"><strong>船上服務台 (Guest Services)：</strong><br>透過 Medallion App 或房內電話直撥</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">台灣客服(僅能E-Mail聯絡)：<a href="info@carnival-tw.com" style="color: var(--aurora-cyan);">info@carnival-tw.com</a></p>
+                </div>
+
+                <!-- 海外保險 -->
+                <div style="background: rgba(10, 20, 42, 0.7); padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h3 style="font-size: 1rem; color: #ffffff; margin-bottom: 6px;">🛡️ 富邦旅遊平安與醫療保險</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-main);"><strong>海外緊急救援專線：</strong><br><a href="tel:+886223459292" style="color: var(--aurora-cyan);">+886-2-2345-9292</a></p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">客服中心0809-000-550/業務員邱韋淇02-6636-7890</p>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 15px; background: rgba(0, 0, 0, 0.3); padding: 10px 14px; border-radius: 6px; font-size: 0.8rem; color: #fef08a;">
+                💡 <strong>外交部旅外國人急難救助全球專線：</strong>+886-800-085-095
+            </div>
+        </div>
+    </details>
+</div>
 
     <!-- Footer -->
     <footer>
-        <p>May the Northern Lights bring Mickey & Michael everlasting wonder.</p>
+        <p>May the Northern Lights bring you everlasting wonder.</p>
     </footer>
 
     <!-- JS 控制收折效果 -->
