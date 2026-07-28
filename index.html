@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2027 北極光蜜月之旅 | Mickey & Michael</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+TC:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #060c19;
+            --aurora-green: #00ffcc;
+            --aurora-cyan: #00f2fe;
+            --aurora-purple: #7928ca;
+            --card-bg: rgba(10, 20, 42, 0.78);
+            --card-border: rgba(0, 255, 204, 0.3);
+            --text-main: #f1f5f9;
+            --text-muted: #a0aec0;
+            --gold-accent: #fbbf24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            /* 明顯的極光背景底圖 + 霓虹漸漸層 overlay */
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(0, 255, 204, 0.22) 0%, transparent 50%),
+                radial-gradient(circle at 85% 60%, rgba(121, 40, 202, 0.28) 0%, transparent 45%),
+                linear-gradient(to bottom, rgba(6, 12, 25, 0.65), rgba(6, 12, 25, 0.85)),
+                url('https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Noto Serif TC', serif;
+            line-height: 1.7;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 60px 0 35px;
+            position: relative;
+        }
+
+        .couple-names {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Cinzel', 'Noto Serif TC', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 0 25px rgba(0, 255, 204, 0.7);
+            margin-bottom: 10px;
+        }
+
+        .hero-date {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--aurora-cyan);
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(10, 20, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+        }
+
+        /* 快速導航列 */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(6, 12, 25, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 204, 0.25);
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 10px;
+            margin-bottom: 35px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--aurora-green);
+            background: rgba(0, 255, 204, 0.15);
+        }
+
+        /* 可折疊日卡片 (Accordion) */
+        .day-accordion {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .day-accordion:hover {
+            border-color: var(--aurora-cyan);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+        }
+
+        /* 卡片標題點擊區：同一行呈現 */
+        .day-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.06));
+        }
+
+        .day-header-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .day-number {
+            font-family: 'Cinzel', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+        }
+
+        .day-title {
+            font-size: 1.02rem;
+            font-weight: 600;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        /* 標籤群組 (與標題同行) */
+        .tag-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-left: 4px;
+        }
+
+        .tag {
+            font-size: 0.76rem;
+            padding: 2px 9px;
+            border-radius: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .tag-lat {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-accent);
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+        }
+
+        .tag-info {
+            color: var(--aurora-cyan);
+            background: rgba(0, 242, 254, 0.15);
+            border: 1px solid rgba(0, 242, 254, 0.35);
+        }
+
+        .tag-flight {
+            color: #a7f3d0;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .toggle-icon {
+            font-size: 1.1rem;
+            color: var(--aurora-green);
+            transition: transform 0.3s ease;
+            margin-left: 12px;
+        }
+
+        /* 折疊內容區 */
+        .day-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+            padding: 0 20px;
+        }
+
+        .day-accordion.active .day-content {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in-out;
+            padding: 10px 20px 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .day-accordion.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 時間線樣式 */
+        .timeline {
+            position: relative;
+            padding-left: 28px;
+            margin-top: 15px;
+            border-left: 2px solid rgba(0, 255, 204, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--bg-base);
+            border: 2px solid var(--aurora-green);
+            box-shadow: 0 0 10px var(--aurora-green);
+        }
+
+        .time-range {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--aurora-green);
+            letter-spacing: 1px;
+        }
+
+        .event-title {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 2px 0;
+        }
+
+        .event-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .day-note-box {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: #fef08a;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            margin-top: 15px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding-top: 50px;
+            color: var(--text-muted);
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .day-title { white-space: normal; }
+            .day-header-main { gap: 8px; }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.9rem; }
+            .day-header { padding: 14px 14px; }
+            .day-number { font-size: 1.15rem; }
+            .day-title { font-size: 0.95rem; }
+            .nav-bar { gap: 6px; flex-wrap: wrap; }
+            .nav-link { font-size: 0.78rem; padding: 4px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Header -->
+    <header>
+        <div class="container">
+            <span class="couple-names">Mickey & Michael</span>
+            <h1>2027 極光蜜月之旅</h1>
+            <p class="hero-date">2027.02.27 – 2027.03.18</p>
+            <div class="badge-container">
+                <span class="badge">🚢 盛世公主號 Majestic Princess</span>
+                <span class="badge">✈️ 華航 CI81 / CI82 直飛</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Fast Nav Bar -->
+    <nav class="nav-bar">
+        <a href="#week1" class="nav-link">💂 Week 1: 倫敦與登船</a>
+        <a href="#week2" class="nav-link">🌌 Week 2: 挪威追光</a>
+        <a href="#week3" class="nav-link">🌊 Week 3: 返航歸途</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- ================= WEEK 1 ================= -->
+        <div id="week1" style="scroll-margin-top: 70px;">
+
+            <!-- D1 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D01</span>
+                        <span class="day-title">2/27 (六) 台灣 ➔ 倫敦抵達與飯店安頓</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 51.50° N</span>
+                            <span class="tag tag-flight">✈️ CI81 08:40 起飛 ➔ 16:55 抵達</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">08:40 - 16:55</div>
+                            <div class="event-title">搭乘華航 CI81 直飛倫敦</div>
+                            <div class="event-desc">桃園國際機場起飛，享受快適長程飛行，抵達倫敦希斯洛機場 (LHR T1)。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">17:00 - 18:00</div>
+                            <div class="event-title">入境通關與提取行李</div>
+                            <div class="event-desc">辦理海關入境手續，提取托運行李。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">18:00 - 19:30</div>
+                            <div class="event-title">地鐵搭乘至 Victoria 站</div>
+                            <div class="event-desc">搭乘 Piccadilly Line 至 Green Park 轉乘 Victoria Line 抵達 Victoria 站。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">19:30 - 20:30</div>
+                            <div class="event-title">入住 The July London Victoria</div>
+                            <div class="event-desc">辦理入住手續，放鬆休息，開啟倫敦極光前奏曲。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">20:30 - 21:30</div>
+                            <div class="event-title">M&S 超市晚間補給</div>
+                            <div class="event-desc">步行至 Marks & Spencer 採買飲用水、水果與晚間點心。</div>
+                        </div>
+                    </div>
+                    <div class="day-note-box">💡 Piccadilly ~ Green Park ~ Victoria 全程備有無障礙電梯，搬運行李極便利。</div>
+                </div>
+            </div>
+
+            <!-- D2 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D02</span>
+                        <span class="day-title">2/28 (日) 塔橋、波羅市場與泰晤士河漫步</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 51.50° N</span>
+                            <span class="tag tag-info">🚶 倫敦市區探索</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">09:00 - 11:30</div>
+                            <div class="event-title">倫敦塔與倫敦塔橋</div>
+                            <div class="event-desc">漫步於倫敦塔橋，捕捉泰晤士河晨曦景色。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">11:30 - 12:30</div>
+                            <div class="event-title">泰晤士河南岸散步</div>
+                            <div class="event-desc">沿河岸步道愜意漫步，感受英倫建築美學。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">12:30 - 15:30</div>
+                            <div class="event-title">波羅市場 (Borough Market) 美食巡禮</div>
+                            <div class="event-desc">品嚐知名西班牙海鮮燉飯、手撕豬肉堡與特色手工甜點。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">15:30 - 17:00</div>
+                            <div class="event-title">M&S 超市補給</div>
+                            <div class="event-desc">因應週日早關門，提早補給未來兩天物資。</div>
+                        </div>
+                    </div>
+                    <div class="day-note-box">💡 波羅市場週日 16:00 收攤；M&S 超市週日提早至 18:00 關門。</div>
+                </div>
+            </div>
+
+            <!-- D3 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D03</span>
+                        <span class="day-title">3/01 (一) 藝文展覽、時尚商圈與平價牛排</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 51.51° N</span>
+                            <span class="tag tag-info">🏛️ 大英博物館 10:00 預約</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">10:00 - 13:00</div>
+                            <div class="event-title">大英博物館 探索</div>
+                            <div class="event-desc">預約 10:00 入場，參觀羅塞塔石碑與埃及展區。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">13:30 - 15:30</div>
+                            <div class="event-title">攝政街 & 蘇活區漫步</div>
+                            <div class="event-desc">欣賞經典弧形建築，探索特色品牌旗艦店。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">15:30 - 17:30</div>
+                            <div class="event-title">柯芬園 (Covent Garden) 逛街</div>
+                            <div class="event-desc">走訪手作市集與香氛小店，感受英式人文市集。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">18:00 - 20:00</div>
+                            <div class="event-title">晚餐：Flat Iron Steak</div>
+                            <div class="event-desc">享用招牌平價葉子牛排與免費黑巧克力冰淇淋。</div>
+                        </div>
+                    </div>
+                    <div class="day-note-box">💡 請於 21 天前預約 Flat Iron Steak 席位。</div>
+                </div>
+            </div>
+
+            <!-- D4 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D04</span>
+                        <span class="day-title">3/02 (二) 皇室風情巡禮與登船前整理</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 51.50° N</span>
+                            <span class="tag tag-info">👑 換崗儀式 11:00</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">10:15 - 12:00</div>
+                            <div class="event-title">白金漢宮 衛兵交接儀式</div>
+                            <div class="event-desc">10:15 抵達廣場卡位，觀賞 11:00 正式開始的換崗儀式。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">12:00 - 13:30</div>
+                            <div class="event-title">穿越聖詹姆士公園</div>
+                            <div class="event-desc">漫步於湖畔公園，享受靜謐優雅的午後時光。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">13:30 - 16:00</div>
+                            <div class="event-title">國會大廈、大笨鐘與西敏寺</div>
+                            <div class="event-desc">拍攝哥德式建築經典全景，聽取大笨鐘鐘聲。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">16:30 - 20:00</div>
+                            <div class="event-title">飯店洗衣與打包 21 天行李</div>
+                            <div class="event-desc">利用自助洗衣設施，精準整理登船大行李箱。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D5 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D05</span>
+                        <span class="day-title">3/03 (三) 倫敦 ➔ 南安普頓（盛世公主號登船）</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 50.90° N</span>
+                            <span class="tag tag-info">🚢 16:00 離港 Southampton</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">10:00 - 10:30</div>
+                            <div class="event-title">Victoria Coach Station 集合</div>
+                            <div class="event-desc">準備搭乘公主郵輪專屬接駁巴士。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">10:30 - 12:30</div>
+                            <div class="event-title">直達 Southampton 碼頭</div>
+                            <div class="event-desc">車程約 120 分鐘，直達南安普頓碼頭。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">12:30 - 14:00</div>
+                            <div class="event-title">通關 & 領取 Medallion 佩戴裝置</div>
+                            <div class="event-desc">感應智慧勛章，開啟艙房 R424。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">14:00 - 16:00</div>
+                            <div class="event-title">自助餐午餐 & 安全演習</div>
+                            <div class="event-desc">享用午餐，並完成指定安全演習站報到。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">16:00</div>
+                            <div class="event-title">起航派對 Sail-away Party</div>
+                            <div class="event-desc">於甲板參加啟航派對，盛世公主號啟航！</div>
+                        </div>
+                    </div>
+                    <div class="day-note-box">💡 入住艙房 R424；Plus 套餐含免費 Wi-Fi 與特調飲品。</div>
+                </div>
+            </div>
+
+            <!-- D6-D7 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D06–07</span>
+                        <span class="day-title">3/04–3/05 (四–五) 海上巡航航行</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">🌊 挪威海向北</span>
+                            <span class="tag tag-info">🚢 At Sea 海上日</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">10:00 - 12:00</div>
+                            <div class="event-title">參加北極圈與極光講座</div>
+                            <div class="event-desc">學習極光攝影技巧與北歐地理歷史。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">14:00 - 16:30</div>
+                            <div class="event-title">體驗船上休閒設施</div>
+                            <div class="event-desc">漫步天空步道 (SeaWalk)、享用精緻下午茶。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">21:00 - 23:00</div>
+                            <div class="event-title">頂層甲板觀星 & Aurora Alert</div>
+                            <div class="event-desc">設定電視與手機 APP 極光通知，夜間尋光。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= WEEK 2 ================= -->
+        <div id="week2" style="scroll-margin-top: 70px;">
+
+            <!-- D8 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D08</span>
+                        <span class="day-title">3/06 (六) Ålesund (奧勒松)</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 62.47° N</span>
+                            <span class="tag tag-info">⚓ 08:00 到港 ➔ 17:00 離港</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">08:30 - 09:30</div>
+                            <div class="event-title">靠港下船 & 小鎮漫步</div>
+                            <div class="event-desc">欣賞新藝術風格 (Art Nouveau) 彩色建築。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">10:00 - 12:30</div>
+                            <div class="event-title">挑戰 Aksla 觀景台 (418級台階)</div>
+                            <div class="event-desc">登頂俯瞰奧勒松小鎮與峽灣交織全景。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">13:00 - 15:00</div>
+                            <div class="event-title">港邊海鮮午餐與咖啡</div>
+                            <div class="event-desc">品嚐在地鮮美魚湯與極北淺焙咖啡。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D9 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D09</span>
+                        <span class="day-title">3/07 (日) Trondheim (特倫汗)</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 63.43° N</span>
+                            <span class="tag tag-info">⚓ 08:30 到港 ➔ 16:00 離港</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">09:00 - 11:30</div>
+                            <div class="event-title">參觀尼達洛斯大教堂</div>
+                            <div class="event-desc">走訪全挪威最壯麗的哥德式大教堂。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">12:00 - 14:00</div>
+                            <div class="event-title">老城橋 (Old Town Bridge)</div>
+                            <div class="event-desc">於幸運之門橋上拍攝運河旁排開的彩色木屋。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">15:00 - 17:00</div>
+                            <div class="event-title">領取跨越北極圈證書</div>
+                            <div class="event-desc">至 Guest Services 領取專屬北極圈證書。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D10 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D10</span>
+                        <span class="day-title">3/08 (一) 正裝之夜 Part 1 (跨越北極圈)</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">❄️ 66.56° N (Arctic Circle)</span>
+                            <span class="tag tag-info">🥂 Formal Night 1</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">10:00 - 14:00</div>
+                            <div class="event-title">海上休養與美容 SPA</div>
+                            <div class="event-desc">充分補眠，為夜間極光觀測儲備體力。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">18:00 - 21:00</div>
+                            <div class="event-title">Formal Night 盛裝晚宴</div>
+                            <div class="event-desc">著晚禮服與西裝，於尊榮主餐廳享用盛宴。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D11 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D11</span>
+                        <span class="day-title">3/09 (二) Tromsø (特羅姆瑟) Day 1</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">🌌 69.65° N (極光之都)</span>
+                            <span class="tag tag-info">⚓ 08:00 到港 (過夜停靠)</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">09:00 - 11:30</div>
+                            <div class="event-title">下船搭車前往市中心</div>
+                            <div class="event-desc">Breivika Kai 21 碼頭搭乘計程車（約10分鐘）。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">12:00 - 13:30</div>
+                            <div class="event-title">午餐：Dragøy Coastal Mathus</div>
+                            <div class="event-desc">享用當地極致新鮮的海鮮拼盤與北極蝦。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">14:00 - 15:30</div>
+                            <div class="event-title">北極大教堂 & 極地博物館</div>
+                            <div class="event-desc">參觀前衛三角形教堂，了解極地探險史。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">16:00 - 17:30</div>
+                            <div class="event-title">Fjellheisen 纜車看夕陽</div>
+                            <div class="event-desc">登頂俯瞰特羅姆瑟夜幕初升的島嶼燈火。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">18:00 - 00:00</div>
+                            <div class="event-title">中文極光追尋專車團</div>
+                            <div class="event-desc">跟隨華語導覽深入野外追尋極光跳躍。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D12 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D12</span>
+                        <span class="day-title">3/10 (三) Tromsø (特羅姆瑟) Day 2</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 69.65° N</span>
+                            <span class="tag tag-info">⚓ 18:00 離港</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">09:00 - 12:30</div>
+                            <div class="event-title">薩米文化與馴鹿雪橇</div>
+                            <div class="event-desc">親近馴鹿、體驗雪橇並聆聽薩米歌唱。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">13:00 - 15:00</div>
+                            <div class="event-title">Risø 質感咖啡館時光</div>
+                            <div class="event-desc">享用精緻淺焙咖啡與肉桂捲。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">15:30 - 17:00</div>
+                            <div class="event-title">返港登船</div>
+                            <div class="event-desc">預留緩衝時間，準備 18:00 開船。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D13 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D13</span>
+                        <span class="day-title">3/11 (四) Alta (阿爾塔) 極光熱點</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">✨ 69.97° N (極光城)</span>
+                            <span class="tag tag-info">⚓ 08:00 到港 ➔ 23:00 離港</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">10:30 - 13:00</div>
+                            <div class="event-title">北極光大教堂</div>
+                            <div class="event-desc">參觀以極光流線設計的現代金屬感教堂。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">13:30 - 16:30</div>
+                            <div class="event-title">Sorrisniva 冰屋酒店體驗</div>
+                            <div class="event-desc">走訪冰雕酒店，於冰酒吧享用特調。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">20:00 - 22:30</div>
+                            <div class="event-title">甲板/岸上 極光爆發觀測</div>
+                            <div class="event-desc">停靠至 23:00，在無光害港灣等待極光大爆發。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D14-D15 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D14–15</span>
+                        <span class="day-title">3/12–3/13 (五–六) 返航巡航 & 正裝夜 Part 2</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">🌊 挪威海</span>
+                            <span class="tag tag-info">🥂 D14 Formal Night 2</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">11:00 - 15:00</div>
+                            <div class="event-title">極光美照整理 & Alfredo's 比薩</div>
+                            <div class="event-desc">整理極光相片，享用現做義式比薩。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">18:00 - 21:00</div>
+                            <div class="event-title">D14 正裝晚宴 (Formal Night 2)</div>
+                            <div class="event-desc">參加第二場盛宴，享用頂級龍蝦牛排晚宴。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= WEEK 3 ================= -->
+        <div id="week3" style="scroll-margin-top: 70px;">
+
+            <!-- D16 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D16</span>
+                        <span class="day-title">3/14 (日) Molde (莫爾德)</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 62.73° N</span>
+                            <span class="tag tag-info">⚓ 07:00 到港 ➔ 16:00 離港</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">09:00 - 12:30</div>
+                            <div class="event-title">Varden 觀景台俯瞰 222 座雪山</div>
+                            <div class="event-desc">搭乘計程車前往，將連綿雪山盡收眼底。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">13:00 - 15:30</div>
+                            <div class="event-title">市區散步 / 大西洋公路</div>
+                            <div class="event-desc">感受爵士之城韻味或造訪蜿蜒大橋。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D17-D18 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D17–18</span>
+                        <span class="day-title">3/15–3/16 (一–二) 返航巡航 & 船長歡送晚宴</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">🌊 海上返航</span>
+                            <span class="tag tag-info">🥂 D18 船長歡送晚宴</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">14:00 - 17:00</div>
+                            <div class="event-title">打包紀念品與行李</div>
+                            <div class="event-desc">整理行李箱，貼上指定離船行李標籤。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">18:30 - 21:30</div>
+                            <div class="event-title">D18 船長歡送晚宴</div>
+                            <div class="event-desc">著正裝出席盛宴，慶祝完美極光之旅。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D19 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D19</span>
+                        <span class="day-title">3/17 (三) 南安普頓 ➔ 希斯洛 ➔ 台灣</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">📍 50.90° N ➔ LHR</span>
+                            <span class="tag tag-flight">✈️ CI82 21:15 起飛</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">07:00 - 09:00</div>
+                            <div class="event-title">抵港離船手續</div>
+                            <div class="event-desc">辦理離船並提取托運行李。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">09:00 - 11:00</div>
+                            <div class="event-title">接駁車至 LHR 機場</div>
+                            <div class="event-desc">搭乘專屬接駁車直達希斯洛機場。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">12:00 - 17:00</div>
+                            <div class="event-title">機場免稅店採買</div>
+                            <div class="event-desc">採買 Fortnum & Mason 茶葉與 Jo Malone 香水。</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="time-range">21:15</div>
+                            <div class="event-title">搭乘 CI82 班機返台</div>
+                            <div class="event-desc">滿載極光回憶，直飛返航。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D20 -->
+            <div class="day-accordion">
+                <div class="day-header" onclick="toggleDay(this)">
+                    <div class="day-header-main">
+                        <span class="day-number">D20</span>
+                        <span class="day-title">3/18 (四) 平安抵達台灣</span>
+                        <div class="tag-group">
+                            <span class="tag tag-lat">🏠 25.07° N (台北)</span>
+                            <span class="tag tag-flight">🛬 18:25 抵達 TPE</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="day-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="time-range">18:25</div>
+                            <div class="event-title">抵達桃園國際機場 TPE</div>
+                            <div class="event-desc">順利降落，為 20 天極光蜜月之旅畫下完美句點。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>May the Northern Lights bring Mickey & Michael everlasting wonder.</p>
+    </footer>
+
+    <!-- JS 控制收折效果 -->
+    <script>
+        function toggleDay(headerElement) {
+            const accordionItem = headerElement.parentElement;
+            accordionItem.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
